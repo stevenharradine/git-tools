@@ -6,27 +6,46 @@ var exec   = require('child_process').exec;
 var PER_PAGE = 100;
 var repos = [];
 
-getAllRepos (1, function (repos) {
-  getCurrentUser (function (current_user) {
+getCurrentUser (function (current_user) {
+  getAllRepos (1, function (repos) {
+    var myRepos = []
+
     for (var index in repos) {
       var current_repo_owner = repos[index].owner.login;
       var current_repo_name = repos[index].owner.name;
 
       if (current_user == current_repo_owner) {
         var ssh_repo_address = repos[index].ssh_url
-        console.log (ssh_repo_address);
 
-        exec ("cd " + CONFIG.REPOSITORIES + " && git clone " + ssh_repo_address, function (error, stdout, stderr) {
-          if (error) {
-            console.log (error)
-          }
-
-          console.log (stdout)
-        })
+        myRepos.push (ssh_repo_address)
       }
     }
+
+    checkoutRepos (myRepos, 0, function () {
+      console.log ("Done")
+    })
   })
 });
+
+function checkoutRepos (repos, index, callback) {
+  var address = repos[index]
+
+  exec ("cd " + CONFIG.REPOSITORIES + " && git clone " + address, function (error, stdout, stderr) {
+    console.log (address);
+    
+    if (error) {
+      console.log (error)
+    }
+
+    if (repos.length - 1 == index) {
+      callback ()
+    } else {
+      checkoutRepos (repos, ++index, callback)
+    }
+
+    console.log ("\n")
+  })
+}
 
 function getCurrentUser (callback) {
   var options = {
