@@ -1,0 +1,6 @@
+{
+  "name": "Git Tools",
+  "description": "a collection of tools for managing your git repos.  Will mass fork repos from an organization, clone all your repos locally and set upstreams back to master repos.",
+  "version": "0.0.1",
+  "private": true
+}
