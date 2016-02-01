@@ -16,7 +16,7 @@ getAllRepos (1, function (repos) {
         var ssh_repo_address = repos[index].ssh_url
         console.log (ssh_repo_address);
 
-        exec ("cd Repositories && git clone " + ssh_repo_address + " && cd ..", function (error, stdout, stderr) {
+        exec ("cd " + CONFIG.REPOSITORIES + " && git clone " + ssh_repo_address, function (error, stdout, stderr) {
           if (error) {
             console.log (error)
           }
