@@ -8,24 +8,30 @@ var repos = [];
 
 getCurrentUser (function (current_user) {
   getAllRepos (1, function (repos) {
-    var myRepos = []
-
-    for (var index in repos) {
-      var current_repo_owner = repos[index].owner.login;
-      var current_repo_name = repos[index].owner.name;
-
-      if (current_user == current_repo_owner) {
-        var ssh_repo_address = repos[index].ssh_url
-
-        myRepos.push (ssh_repo_address)
-      }
-    }
+    var myRepos = getMyRepos (repos, current_user);
 
     checkoutRepos (myRepos, 0, function () {
       console.log ("Done")
     })
   })
 });
+
+function getMyRepos (repos, current_user) {
+  var myRepos = []
+
+  for (var index in repos) {
+    var current_repo_owner = repos[index].owner.login;
+    var current_repo_name = repos[index].owner.name;
+
+    if (current_user == current_repo_owner) {
+      var ssh_repo_address = repos[index].ssh_url
+
+      myRepos.push (ssh_repo_address)
+    }
+  }
+
+  return myRepos;
+}
 
 function checkoutRepos (repos, index, callback) {
   var address = repos[index]
