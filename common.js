@@ -2,6 +2,22 @@ var CONFIG = require("./config");
 var sys    = require('sys');
 var exec   = require('child_process').exec;
 
+module.exports.getOrgsRepos = function (repos, organization_name) {
+  var orgsRepos = []
+  for (var index in repos) {
+    var current_repo_owner = repos[index].owner.login;
+    var current_repo_name = repos[index].owner.name;
+
+    if (organization_name == current_repo_owner) {
+      var repo_name = repos[index].name
+
+      orgsRepos.push (repo_name)
+    }
+  }
+
+  return orgsRepos;
+}
+
 module.exports.getMyRepos = function (repos, current_user) {
   var myRepos = []
 
@@ -17,6 +33,50 @@ module.exports.getMyRepos = function (repos, current_user) {
   }
 
   return myRepos;
+}
+
+module.exports.forkRepos = function (owner, repos, index, callback) {
+  var repo_name = repos[index]
+
+  var http   = require("https");
+
+  var options = {
+    host: "api.github.com",
+    port: 443,
+    path: "/repos/" + owner + "/" + repo_name + "/forks",
+    method: 'POST',
+    headers: {
+      "Authorization": "token " + CONFIG.GITHUB_TOKEN,
+      "User-Agent": "git-tools-cloner"
+    }
+  };
+
+  var req = http.request(options, function(res) {
+    var username = "";
+
+    res.setEncoding('utf8');
+    res.on('data', function (chunk) {
+      username += chunk;
+    });
+
+    res.on('end', function () {
+      console.log (options.path)
+
+      if (repos.length - 1 == index) {
+        callback ()
+      } else {
+        module.exports.forkRepos (owner, repos, ++index, callback)
+      }
+    });
+  });
+
+  req.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+  });
+
+  // write data to request body
+  req.write('');
+  req.end();
 }
 
 module.exports.checkoutRepos = function (repos, index, callback) {
