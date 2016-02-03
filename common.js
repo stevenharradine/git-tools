@@ -1,4 +1,5 @@
 var CONFIG = require("./config");
+var http   = require("https");
 var sys    = require('sys');
 var exec   = require('child_process').exec;
 
@@ -37,8 +38,6 @@ module.exports.getMyRepos = function (repos, current_user) {
 
 module.exports.forkRepos = function (owner, repos, index, callback) {
   var repo_name = repos[index]
-
-  var http   = require("https");
 
   var options = {
     host: "api.github.com",
@@ -100,8 +99,6 @@ module.exports.checkoutRepos = function (repos, index, callback) {
 }
 
 module.exports.getCurrentUser = function (callback) {
-  var http   = require("https");
-
   var options = {
     host: "api.github.com",
     port: 443,
@@ -137,8 +134,6 @@ module.exports.getCurrentUser = function (callback) {
 }
 
 module.exports.getAllRepos = function (page, repos, callback) {
-  var http   = require("https");
-
   var options = {
     host: "api.github.com",
     port: 443,
