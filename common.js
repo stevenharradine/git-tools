@@ -62,7 +62,7 @@ module.exports.forkRepos = function (owner, repos, index, callback) {
     res.on('end', function () {
       console.log (options.path)
 
-      if (repos.length - 1 == index) {
+      if (repos.length - 1 === index) {
         callback ()
       } else {
         module.exports.forkRepos (owner, repos, ++index, callback)
