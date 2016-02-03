@@ -1,13 +1,13 @@
 var CONFIG = require("./config");
-var COMMON = require("./common");
+var git_tools = require("./common");
 
 var repos = [];
 
-COMMON.getCurrentUser (function (current_user) {
-  COMMON.getAllRepos (1, repos, function (repos) {
-    var myRepos = COMMON.getMyRepos (repos, current_user);
+git_tools.getCurrentUser (function (current_user) {
+  git_tools.getAllRepos (1, repos, function (repos) {
+    var myRepos = git_tools.getMyRepos (repos, current_user);
 
-    COMMON.checkoutRepos (myRepos, 0, function () {
+    git_tools.checkoutRepos (myRepos, 0, function () {
       console.log ("Done")
     })
   })
