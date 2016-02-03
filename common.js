@@ -8,7 +8,7 @@ module.exports.getOrgsRepos = function (repos, organization_name) {
     var current_repo_owner = repos[index].owner.login;
     var current_repo_name = repos[index].owner.name;
 
-    if (organization_name == current_repo_owner) {
+    if (organization_name === current_repo_owner) {
       var repo_name = repos[index].name
 
       orgsRepos.push (repo_name)
@@ -25,7 +25,7 @@ module.exports.getMyRepos = function (repos, current_user) {
     var current_repo_owner = repos[index].owner.login;
     var current_repo_name = repos[index].owner.name;
 
-    if (current_user == current_repo_owner) {
+    if (current_user === current_repo_owner) {
       var ssh_repo_address = repos[index].ssh_url
 
       myRepos.push (ssh_repo_address)
@@ -89,7 +89,7 @@ module.exports.checkoutRepos = function (repos, index, callback) {
       console.log (error)
     }
 
-    if (repos.length - 1 == index) {
+    if (repos.length - 1 === index) {
       callback ()
     } else {
       module.exports.checkoutRepos (repos, ++index, callback)
@@ -166,7 +166,7 @@ module.exports.getAllRepos = function (page, repos, callback) {
         repos = module.exports.add_repos (repos, current_json_object);
       }
 
-      if (current_page_length == CONFIG.PER_PAGE) {
+      if (current_page_length === CONFIG.PER_PAGE) {
         module.exports.getAllRepos (++page, repos, callback);
       } else {
         if (current_page_length > 0) {
