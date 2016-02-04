@@ -85,11 +85,11 @@ module.exports.checkoutRepos = function (repos, index, callback) {
     console.log (address);
     
     if (error) {
-      return console.log (error)
+      console.log (error)
     }
 
     if (repos.length - 1 === index) {
-      callback ()
+      return callback ()
     } else {
       module.exports.checkoutRepos (repos, ++index, callback)
     }
