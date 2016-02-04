@@ -6,13 +6,15 @@ var exec   = require('child_process').exec;
 module.exports.getOrgsRepos = function (repos, organization_name) {
   var orgsRepos = []
   for (var index in repos) {
-    var current_repo_owner = repos[index].owner.login;
-    var current_repo_name = repos[index].owner.name;
+    if ({}.hasOwnProperty.call(repos, index)) {
+      var current_repo_owner = repos[index].owner.login;
+      var current_repo_name = repos[index].owner.name;
 
-    if (organization_name === current_repo_owner) {
-      var repo_name = repos[index].name
+      if (organization_name === current_repo_owner) {
+        var repo_name = repos[index].name
 
-      orgsRepos.push (repo_name)
+        orgsRepos.push (repo_name)
+      }
     }
   }
 
@@ -187,7 +189,9 @@ module.exports.getAllRepos = function (page, repos, callback) {
 
 module.exports.add_repos = function (repos, append_repos) {
   for (var index in append_repos) {
-    repos.push (append_repos[index]);
+    if ({}.hasOwnProperty.call(repos, index)) {
+      repos.push (append_repos[index]);
+    }
   }
 
   return repos;
