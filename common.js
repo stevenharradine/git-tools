@@ -62,7 +62,7 @@ module.exports.forkRepos = function (owner, repos, index, callback) {
       console.log (options.path)
 
       if (repos.length - 1 === index) {
-        callback ()
+        return callback ()
       } else {
         module.exports.forkRepos (owner, repos, ++index, callback)
       }
@@ -166,7 +166,7 @@ module.exports.getAllRepos = function (page, repos, callback) {
       } else {
         if (current_page_length > 0) {
           if (typeof callback === "function") {
-            callback(repos);
+            return callback(repos);
           }
         }
       }
