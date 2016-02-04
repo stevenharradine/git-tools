@@ -23,13 +23,15 @@ module.exports.getMyRepos = function (repos, current_user) {
   var myRepos = []
 
   for (var index in repos) {
-    var current_repo_owner = repos[index].owner.login;
-    var current_repo_name = repos[index].owner.name;
+    if ({}.hasOwnProperty.call(repos, index)) {
+      var current_repo_owner = repos[index].owner.login;
+      var current_repo_name = repos[index].owner.name;
 
-    if (current_user === current_repo_owner) {
-      var ssh_repo_address = repos[index].ssh_url
+      if (current_user === current_repo_owner) {
+        var ssh_repo_address = repos[index].ssh_url
 
-      myRepos.push (ssh_repo_address)
+        myRepos.push (ssh_repo_address)
+      }
     }
   }
 
