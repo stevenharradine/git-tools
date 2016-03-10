@@ -6,15 +6,13 @@ var exec   = require('child_process').exec;
 module.exports.getOrgsRepos = function (repos, organization_name) {
   var orgsRepos = []
   for (var index in repos) {
-    if ({}.hasOwnProperty.call(repos, index)) {
-      var current_repo_owner = repos[index].owner.login;
-      var current_repo_name = repos[index].owner.name;
+    var current_repo_owner = repos[index].owner.login;
+    var current_repo_name = repos[index].owner.name;
 
-      if (organization_name === current_repo_owner) {
-        var repo_name = repos[index].name
+    if (organization_name === current_repo_owner) {
+      var repo_name = repos[index].name
 
-        orgsRepos.push (repo_name)
-      }
+      orgsRepos.push (repo_name)
     }
   }
 
@@ -25,15 +23,13 @@ module.exports.getMyRepos = function (repos, current_user) {
   var myRepos = []
 
   for (var index in repos) {
-    if ({}.hasOwnProperty.call(repos, index)) {
-      var current_repo_owner = repos[index].owner.login;
-      var current_repo_name = repos[index].owner.name;
+    var current_repo_owner = repos[index].owner.login;
+    var current_repo_name = repos[index].owner.name;
 
-      if (current_user === current_repo_owner) {
-        var ssh_repo_address = repos[index].ssh_url
+    if (current_user === current_repo_owner) {
+      var ssh_repo_address = repos[index].ssh_url
 
-        myRepos.push (ssh_repo_address)
-      }
+      myRepos.push (ssh_repo_address)
     }
   }
 
@@ -147,30 +143,30 @@ module.exports.getAllRepos = function (page, repos, callback) {
       "Authorization": "token " + CONFIG.GITHUB_TOKEN,
       "User-Agent": "git-tools-cloner"
     }
-  };
+  }
 
   var req = http.request(options, function(res) {
-    var buffered_output = "";
+    var buffered_output = ""
 
     res.setEncoding('utf8');
     res.on('data', function (chunk) {
-      buffered_output += chunk;
+      buffered_output += chunk
     });
 
     res.on('end', function () {
-      var current_json_object = JSON.parse (buffered_output);
-      var current_page_length = current_json_object.length;
+      var current_json_object = JSON.parse (buffered_output)
+      var current_page_length = current_json_object.length
 
       if (current_page_length > 0) {
-        repos = module.exports.add_repos (repos, current_json_object);
+        repos = module.exports.add_repos (repos, current_json_object)
       }
 
       if (current_page_length === CONFIG.PER_PAGE) {
-        module.exports.getAllRepos (++page, repos, callback);
+        module.exports.getAllRepos (++page, repos, callback)
       } else {
         if (current_page_length > 0) {
           if (typeof callback === "function") {
-            callback(repos);
+            callback(repos)
           }
         }
       }
@@ -178,20 +174,18 @@ module.exports.getAllRepos = function (page, repos, callback) {
   });
 
   req.on('error', function(e) {
-    console.log('problem with request: ' + e.message);
+    console.log('problem with request: ' + e.message)
   });
 
   // write data to request body
-  req.write('data\n');
-  req.write('data\n');
+  req.write('data\n')
+  req.write('data\n')
   req.end();
 }
 
 module.exports.add_repos = function (repos, append_repos) {
   for (var index in append_repos) {
-    if ({}.hasOwnProperty.call(repos, index)) {
-      repos.push (append_repos[index]);
-    }
+    repos.push (append_repos[index]);
   }
 
   return repos;
