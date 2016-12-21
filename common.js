@@ -84,7 +84,9 @@ module.exports.checkoutRepos = function (repos, index, callback) {
     console.log (address);
     
     if (error) {
-      return console.log (error)
+      if (!error.toString().indexOf ("already exists and is not an empty directory")) {
+        return console.log (error)
+      }
     }
 
     if (repos.length - 1 === index) {
