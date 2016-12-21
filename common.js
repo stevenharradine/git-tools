@@ -1,6 +1,5 @@
 var CONFIG = require("./config");
 var http   = require("https");
-var sys    = require('sys');
 var exec   = require('child_process').exec;
 
 module.exports.getOrgsRepos = function (repos, organization_name) {
