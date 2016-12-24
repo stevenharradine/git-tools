@@ -17,7 +17,7 @@ node cloner
 ### upstreamer
 Make sure all your organizations repositories that you have forked are linked to the organisation as the parent. Run against the repositories in config.js.
 ```
-node upstreamer {{ organization_name }} {{ your_github_id }}
+node upstreamer {{ your_github_id }} {{ organization_name }}
 ```
 
 ### note
