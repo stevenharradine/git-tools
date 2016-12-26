@@ -20,5 +20,5 @@ Make sure all your organizations repositories that you have forked are linked to
 node upstreamer {{ your_github_id }} {{ organization_name }}
 ```
 
-### note
+## note
 Its best to run the tools in order as failing to do so can result in data sets (github vs your local) not to align and the script will break.
